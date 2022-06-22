@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ClubDBModelStoreContainer" CdmEntityContainer="ClubDBEntities">
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="ClubDBModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CreatAdmin" FunctionName="ClubDBModel.Store.CreatAdmin" />
+    <FunctionImportMapping FunctionImportName="GetAllUser" FunctionName="ClubDBModel.Store.GetAllUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ClubDBModel.GetAllUser_Result">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetUser" FunctionName="ClubDBModel.Store.GetUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ClubDBModel.GetUser_Result">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Classes">
+      <EntityTypeMapping TypeName="ClubDBModel.Class">
+        <MappingFragment StoreEntitySet="Class">
+          <ScalarProperty Name="CoachName" ColumnName="CoachName" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Days" ColumnName="Days" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CreatClass" FunctionName="ClubDBModel.Store.CreatClass" />
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="ClubDBModel.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="NationalCode" ColumnName="NationalCode" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CreatMember" FunctionName="ClubDBModel.Store.CreatMember" />
+    <EntitySetMapping Name="Coaches">
+      <EntityTypeMapping TypeName="ClubDBModel.Coach">
+        <MappingFragment StoreEntitySet="Coach">
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="CodeClass" ColumnName="CodeClass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CreatCoachAccount" FunctionName="ClubDBModel.Store.CreatCoachAccount" />
+    <FunctionImportMapping FunctionImportName="GetSearchListClass" FunctionName="ClubDBModel.Store.GetSearchListClass">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ClubDBModel.GetSearchListClass_Result">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Days" ColumnName="Days" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="CoachName" ColumnName="CoachName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetSearchListMember" FunctionName="ClubDBModel.Store.GetSearchListMember">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ClubDBModel.GetSearchListMember_Result">
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="NationalCode" ColumnName="NationalCode" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

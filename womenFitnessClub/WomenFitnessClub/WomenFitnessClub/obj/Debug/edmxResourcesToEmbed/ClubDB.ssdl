@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ClubDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ClubDBModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="ClubDBModel.Store.Admin" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Class" EntityType="ClubDBModel.Store.Class" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Coach" EntityType="ClubDBModel.Store.Coach" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Member" EntityType="ClubDBModel.Store.Member" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Coach_Coach" Association="ClubDBModel.Store.FK_Coach_Coach">
+      <End Role="Class" EntitySet="Class" />
+      <End Role="Coach" EntitySet="Coach" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="PassWord" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="char" Nullable="false" MaxLength="10" />
+    <Property Name="Days" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Time" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="CoachName" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Coach">
+    <Key>
+      <PropertyRef Name="Nationality" />
+    </Key>
+    <Property Name="CodeClass" Type="char" Nullable="false" MaxLength="10" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Nationality" Type="char" Nullable="false" MaxLength="10" />
+    <Property Name="Phone" Type="char" Nullable="false" MaxLength="11" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="NationalCode" />
+    </Key>
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="NationalCode" Type="char" Nullable="false" MaxLength="10" />
+    <Property Name="Phone" Type="char" Nullable="false" MaxLength="11" />
+    <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="500" />
+  </EntityType>
+  <Association Name="FK_Coach_Coach">
+    <End Role="Class" Type="ClubDBModel.Store.Class" Multiplicity="1" />
+    <End Role="Coach" Type="ClubDBModel.Store.Coach" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Coach">
+        <PropertyRef Name="CodeClass" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="CreatAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="nvarchar" Mode="In" />
+    <Parameter Name="pass" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="CreatClass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="code" Type="char" Mode="In" />
+    <Parameter Name="days" Type="nvarchar" Mode="In" />
+    <Parameter Name="time" Type="nvarchar" Mode="In" />
+    <Parameter Name="coachname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="CreatCoachAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="code" Type="char" Mode="In" />
+    <Parameter Name="name" Type="nvarchar" Mode="In" />
+    <Parameter Name="lastname" Type="nvarchar" Mode="In" />
+    <Parameter Name="nationalcode" Type="char" Mode="In" />
+    <Parameter Name="phone" Type="char" Mode="In" />
+  </Function>
+  <Function Name="CreatMember" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="nvarchar" Mode="In" />
+    <Parameter Name="lastname" Type="nvarchar" Mode="In" />
+    <Parameter Name="nationalcode" Type="char" Mode="In" />
+    <Parameter Name="phone" Type="char" Mode="In" />
+    <Parameter Name="address" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="GetAllUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetSearchListClass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="code" Type="char" Mode="In" />
+    <Parameter Name="coachname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="GetSearchListMember" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="lastname" Type="nvarchar" Mode="In" />
+    <Parameter Name="nationalcode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="nvarchar" Mode="In" />
+    <Parameter Name="pass" Type="nvarchar" Mode="In" />
+  </Function>
+</Schema>

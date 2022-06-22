@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ClubDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ClubDBEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="ClubDBModel.Admin" />
+    <FunctionImport Name="CreatAdmin">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="pass" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetAllUser" ReturnType="Collection(ClubDBModel.GetAllUser_Result)" />
+    <FunctionImport Name="GetUser" ReturnType="Collection(ClubDBModel.GetUser_Result)">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="pass" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Classes" EntityType="ClubDBModel.Class" />
+    <FunctionImport Name="CreatClass">
+      <Parameter Name="code" Mode="In" Type="String" />
+      <Parameter Name="days" Mode="In" Type="String" />
+      <Parameter Name="time" Mode="In" Type="String" />
+      <Parameter Name="coachname" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Members" EntityType="ClubDBModel.Member" />
+    <FunctionImport Name="CreatMember">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="lastname" Mode="In" Type="String" />
+      <Parameter Name="nationalcode" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="String" />
+      <Parameter Name="address" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Coaches" EntityType="ClubDBModel.Coach" />
+    <AssociationSet Name="FK_Coach_Coach" Association="ClubDBModel.FK_Coach_Coach">
+      <End Role="Class" EntitySet="Classes" />
+      <End Role="Coach" EntitySet="Coaches" />
+    </AssociationSet>
+    <FunctionImport Name="CreatCoachAccount">
+      <Parameter Name="code" Mode="In" Type="String" />
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="lastname" Mode="In" Type="String" />
+      <Parameter Name="nationalcode" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetSearchListClass" ReturnType="Collection(ClubDBModel.GetSearchListClass_Result)">
+      <Parameter Name="code" Mode="In" Type="String" />
+      <Parameter Name="coachname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetSearchListMember" ReturnType="Collection(ClubDBModel.GetSearchListMember_Result)">
+      <Parameter Name="lastname" Mode="In" Type="String" />
+      <Parameter Name="nationalcode" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="PassWord" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <ComplexType Name="GetAllUser_Result">
+    <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="PassWord" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GetUser_Result">
+    <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="PassWord" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Type="String" Name="Code" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Type="String" Name="Days" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Time" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="CoachName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Coaches" Relationship="ClubDBModel.FK_Coach_Coach" FromRole="Class" ToRole="Coach" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="NationalCode" />
+    </Key>
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="NationalCode" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Type="String" Name="Phone" Nullable="false" MaxLength="11" FixedLength="true" Unicode="false" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Coach">
+    <Key>
+      <PropertyRef Name="Nationality" />
+    </Key>
+    <Property Type="String" Name="CodeClass" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Nationality" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Type="String" Name="Phone" Nullable="false" MaxLength="11" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="Class" Relationship="ClubDBModel.FK_Coach_Coach" FromRole="Coach" ToRole="Class" />
+  </EntityType>
+  <Association Name="FK_Coach_Coach">
+    <End Type="ClubDBModel.Class" Role="Class" Multiplicity="1" />
+    <End Type="ClubDBModel.Coach" Role="Coach" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Coach">
+        <PropertyRef Name="CodeClass" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetSearchListClass_Result">
+    <Property Type="String" Name="Code" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="Days" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Time" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="CoachName" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="GetSearchListMember_Result">
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="NationalCode" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="Phone" Nullable="false" MaxLength="11" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="500" />
+  </ComplexType>
+</Schema>

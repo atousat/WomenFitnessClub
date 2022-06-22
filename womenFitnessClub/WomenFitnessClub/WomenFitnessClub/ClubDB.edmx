@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ClubDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ClubDBModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="ClubDBModel.Store.Admin" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Class" EntityType="ClubDBModel.Store.Class" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Coach" EntityType="ClubDBModel.Store.Coach" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Member" EntityType="ClubDBModel.Store.Member" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Coach_Coach" Association="ClubDBModel.Store.FK_Coach_Coach">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Coach" EntitySet="Coach" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PassWord" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="char" Nullable="false" MaxLength="10" />
+          <Property Name="Days" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Time" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CoachName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Coach">
+          <Key>
+            <PropertyRef Name="Nationality" />
+          </Key>
+          <Property Name="CodeClass" Type="char" Nullable="false" MaxLength="10" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Nationality" Type="char" Nullable="false" MaxLength="10" />
+          <Property Name="Phone" Type="char" Nullable="false" MaxLength="11" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="NationalCode" />
+          </Key>
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="NationalCode" Type="char" Nullable="false" MaxLength="10" />
+          <Property Name="Phone" Type="char" Nullable="false" MaxLength="11" />
+          <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_Coach_Coach">
+          <End Role="Class" Type="ClubDBModel.Store.Class" Multiplicity="1" />
+          <End Role="Coach" Type="ClubDBModel.Store.Coach" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Coach">
+              <PropertyRef Name="CodeClass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CreatAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="pass" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="CreatClass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="code" Type="char" Mode="In" />
+          <Parameter Name="days" Type="nvarchar" Mode="In" />
+          <Parameter Name="time" Type="nvarchar" Mode="In" />
+          <Parameter Name="coachname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="CreatCoachAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="code" Type="char" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="lastname" Type="nvarchar" Mode="In" />
+          <Parameter Name="nationalcode" Type="char" Mode="In" />
+          <Parameter Name="phone" Type="char" Mode="In" />
+        </Function>
+        <Function Name="CreatMember" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="lastname" Type="nvarchar" Mode="In" />
+          <Parameter Name="nationalcode" Type="char" Mode="In" />
+          <Parameter Name="phone" Type="char" Mode="In" />
+          <Parameter Name="address" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetAllUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetSearchListClass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="code" Type="char" Mode="In" />
+          <Parameter Name="coachname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetSearchListMember" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="lastname" Type="nvarchar" Mode="In" />
+          <Parameter Name="nationalcode" Type="char" Mode="In" />
+        </Function>
+        <Function Name="GetUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="pass" Type="nvarchar" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ClubDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ClubDBEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="ClubDBModel.Admin" />
+          <FunctionImport Name="CreatAdmin">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllUser" ReturnType="Collection(ClubDBModel.GetAllUser_Result)" />
+          <FunctionImport Name="GetUser" ReturnType="Collection(ClubDBModel.GetUser_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Classes" EntityType="ClubDBModel.Class" />
+          <FunctionImport Name="CreatClass">
+            <Parameter Name="code" Mode="In" Type="String" />
+            <Parameter Name="days" Mode="In" Type="String" />
+            <Parameter Name="time" Mode="In" Type="String" />
+            <Parameter Name="coachname" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Members" EntityType="ClubDBModel.Member" />
+          <FunctionImport Name="CreatMember">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="lastname" Mode="In" Type="String" />
+            <Parameter Name="nationalcode" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+            <Parameter Name="address" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Coaches" EntityType="ClubDBModel.Coach" />
+          <AssociationSet Name="FK_Coach_Coach" Association="ClubDBModel.FK_Coach_Coach">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Coach" EntitySet="Coaches" />
+          </AssociationSet>
+          <FunctionImport Name="CreatCoachAccount">
+            <Parameter Name="code" Mode="In" Type="String" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="lastname" Mode="In" Type="String" />
+            <Parameter Name="nationalcode" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetSearchListClass" ReturnType="Collection(ClubDBModel.GetSearchListClass_Result)">
+            <Parameter Name="code" Mode="In" Type="String" />
+            <Parameter Name="coachname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetSearchListMember" ReturnType="Collection(ClubDBModel.GetSearchListMember_Result)">
+            <Parameter Name="lastname" Mode="In" Type="String" />
+            <Parameter Name="nationalcode" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="PassWord" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <ComplexType Name="GetAllUser_Result">
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PassWord" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUser_Result">
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PassWord" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Days" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Time" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CoachName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Coaches" Relationship="ClubDBModel.FK_Coach_Coach" FromRole="Class" ToRole="Coach" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="NationalCode" />
+          </Key>
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NationalCode" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Phone" Nullable="false" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Coach">
+          <Key>
+            <PropertyRef Name="Nationality" />
+          </Key>
+          <Property Type="String" Name="CodeClass" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Nationality" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Phone" Nullable="false" MaxLength="11" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Class" Relationship="ClubDBModel.FK_Coach_Coach" FromRole="Coach" ToRole="Class" />
+        </EntityType>
+        <Association Name="FK_Coach_Coach">
+          <End Type="ClubDBModel.Class" Role="Class" Multiplicity="1" />
+          <End Type="ClubDBModel.Coach" Role="Coach" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Coach">
+              <PropertyRef Name="CodeClass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetSearchListClass_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Days" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Time" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CoachName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetSearchListMember_Result">
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NationalCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Phone" Nullable="false" MaxLength="11" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="500" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ClubDBModelStoreContainer" CdmEntityContainer="ClubDBEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="ClubDBModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreatAdmin" FunctionName="ClubDBModel.Store.CreatAdmin" />
+          <FunctionImportMapping FunctionImportName="GetAllUser" FunctionName="ClubDBModel.Store.GetAllUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ClubDBModel.GetAllUser_Result">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUser" FunctionName="ClubDBModel.Store.GetUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ClubDBModel.GetUser_Result">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="ClubDBModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="CoachName" ColumnName="CoachName" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreatClass" FunctionName="ClubDBModel.Store.CreatClass" />
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="ClubDBModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="NationalCode" ColumnName="NationalCode" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreatMember" FunctionName="ClubDBModel.Store.CreatMember" />
+          <EntitySetMapping Name="Coaches">
+            <EntityTypeMapping TypeName="ClubDBModel.Coach">
+              <MappingFragment StoreEntitySet="Coach">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CodeClass" ColumnName="CodeClass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreatCoachAccount" FunctionName="ClubDBModel.Store.CreatCoachAccount" />
+          <FunctionImportMapping FunctionImportName="GetSearchListClass" FunctionName="ClubDBModel.Store.GetSearchListClass">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ClubDBModel.GetSearchListClass_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="CoachName" ColumnName="CoachName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetSearchListMember" FunctionName="ClubDBModel.Store.GetSearchListMember">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ClubDBModel.GetSearchListMember_Result">
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="NationalCode" ColumnName="NationalCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
